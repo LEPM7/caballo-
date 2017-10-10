@@ -287,7 +287,7 @@ def algoritmos():
             output_profundidad(nodo_inicio, nodo_fin)
         elif int(option) == 3:
             limite = input("ingrese el limite")
-            output_backtraking(nodo_inicio,nodo_fin,limite)
+            output_backtraking(nodo_inicio,nodo_fin,int(limite))
         elif int(option) == 4:
             break
 
