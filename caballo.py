@@ -108,6 +108,7 @@ def sucesores_limite(nodo):
 ##############################################################################################
 ##############################################################################################
 
+#anchura
 def anchura(nodo_inicio, nodo_fin):
     lista = [nodo_inicio]
     c = 1
@@ -141,24 +142,24 @@ def anchura_grafo(nodo_inicio, nodo_fin):
                     lista.append(t)
     print ("NO SOLUCION")
 
-def profundidad_grafo(nodo_inicio, nodo_fin):
-    lista = [nodo_inicio]
+def anchura_grafo_nivel(nodo_inicio, nodo_fin):
+    lista = [[nodo_inicio, 0]]
     destapados = []
     c = 1
     while lista:
         nodo_actual = lista.pop(0)
-        destapados.append(deepcopy(nodo_actual))
+        destapados.append(deepcopy(nodo_actual[0]))
+        print('Nodo actual:', nodo_actual, "Contador:", c)
         c = c + 1
-        print('Nodo actual',nodo_actual,'Cont:',c)
-        if nodo_actual == nodo_fin:
-            return print ("SOLUCION")
-        temp = sucesores(nodo_actual)
+        if (nodo_actual[0] == nodo_fin):
+            return print("SOLUCION")
+        temp = sucesores_limite(nodo_actual)
         if temp:
-            x = [t for t in temp if t not in lista and t not in destapados]
-            x.extend(deepcopy(lista))
-            lista = x
-    print ("NO SOLUCION")
+            x = [t for t in temp if t not in lista and t[0] not in destapados]
+            lista.extend(deepcopy(x))
+    print("NO SOLUCION")
 
+#profundidad
 def profundidad(nodo_inicio, nodo_fin):
     lista = [nodo_inicio]
     c = 1
@@ -174,41 +175,23 @@ def profundidad(nodo_inicio, nodo_fin):
             lista = temp
     print ("NO SOLUCION")
 
-def backtracking(nodo_inicio, nodo_fin, lim):
-    lista = [[nodo_inicio, 0]]
-    c = 1
-    while lista:
-        nodo_actual = lista.pop(0)
-        print ('Nodo actual:', nodo_actual)
-        print (c)
-        c = c + 1
-        if(nodo_actual[0] == nodo_fin):
-            return print ("SOLUCION")
-        if(nodo_actual[1] >= lim):
-            continue
-        temp = sucesores_limite(nodo_actual)
-        if temp:
-            temp.extend(lista)
-            lista = temp
-    print ("NO SOLUCION")
-
-def backtracking_grafo(nodo_inicio, nodo_fin, lim):
-    lista = [[nodo_inicio, 0]]
+def profundidad_grafo(nodo_inicio, nodo_fin):
+    lista = [nodo_inicio]
     destapados = []
     c = 1
     while lista:
         nodo_actual = lista.pop(0)
-        destapados.append(deepcopy(nodo_actual[0]))
-        print('Nodo actual:', nodo_actual, "Contador:", c)
+        destapados.append(deepcopy(nodo_actual))
         c = c + 1
-        if(nodo_actual[0] == nodo_fin):
+        print('Nodo actual',nodo_actual,'Cont:',c)
+        if nodo_actual == nodo_fin:
             return print ("SOLUCION")
-        if(nodo_actual[1] < lim):
-            temp = sucesores_limite(nodo_actual)
-            if temp:
-                x = [t for t in temp if t not in lista and t[0] not in destapados]
-                x.extend(deepcopy(lista))
-                lista = x
+        temp = sucesores(nodo_actual)
+        if temp:
+            x = [t for t in temp if t not in destapados]
+            x = [w for w in x if w not in lista]
+            x.extend(deepcopy(lista))
+            lista = x
     print ("NO SOLUCION")
 
 def profundidad_grafo_nivel(nodo_inicio, nodo_fin):
@@ -229,7 +212,8 @@ def profundidad_grafo_nivel(nodo_inicio, nodo_fin):
             lista = x
     print ("NO SOLUCION")
 
-def anchura_grafo_nivel(nodo_inicio, nodo_fin):
+#backtracking
+def backtracking_grafo(nodo_inicio, nodo_fin, lim):
     lista = [[nodo_inicio, 0]]
     destapados = []
     c = 1
@@ -238,13 +222,15 @@ def anchura_grafo_nivel(nodo_inicio, nodo_fin):
         destapados.append(deepcopy(nodo_actual[0]))
         print('Nodo actual:', nodo_actual, "Contador:", c)
         c = c + 1
-        if (nodo_actual[0] == nodo_fin):
-            return print("SOLUCION")
-        temp = sucesores_limite(nodo_actual)
-        if temp:
-            x = [t for t in temp if t not in lista and t[0] not in destapados]
-            lista.extend(deepcopy(x))
-    print("NO SOLUCION")
+        if(nodo_actual[0] == nodo_fin):
+            return print ("SOLUCION")
+        if(nodo_actual[1] < lim):
+            temp = sucesores_limite(nodo_actual)
+            if temp:
+                x = [t for t in temp if t not in lista and t[0] not in destapados]
+                x.extend(deepcopy(lista))
+                lista = x
+    print ("NO SOLUCION")
 
 ##############################################################################################
 ##############################################################################################
@@ -254,14 +240,14 @@ def anchura_grafo_nivel(nodo_inicio, nodo_fin):
 
 def output_anchura(nodo_inicio, nodo_fin):
     i = time.time()*1000
-    anchura_grafo(nodo_inicio,nodo_fin)
+    anchura_grafo_nivel(nodo_inicio,nodo_fin)
     f = time.time()*1000
     delta = f - i
     print("TIEMPO DEL METODO",delta,"ms")
 
 def output_profundidad(nodo_inicio, nodo_fin):
     i = time.time() * 1000
-    profundidad_grafo(nodo_inicio, nodo_fin)
+    profundidad_grafo_nivel(nodo_inicio, nodo_fin)
     f = time.time() * 1000
     delta = f - i
     print("TIEMPO DEL METODO", delta, "ms")
@@ -297,7 +283,7 @@ algoritmos()
 #anchura_grafo(nodo_inicio, nodo_fin)
 #anchura_grafo_nivel(nodo_inicio, nodo_fin)
 #profundidad_grafo(nodo_inicio, nodo_fin)
-#$profundidad_grafo_nivel(nodo_inicio, nodo_fin)
+#profundidad_grafo_nivel(nodo_inicio, nodo_fin)
 #anchura_grafo_nivel(nodo_inicio, nodo_fin)
 
 
