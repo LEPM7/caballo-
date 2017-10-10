@@ -1,3 +1,6 @@
+import sys
+#libreria para obtener el tiempo actual y cuando termino el metodo
+import time
 #libreria numpy para trabajar arreglos de manera rapida
 import numpy as np
 #libreria importada copy para copiar arreglos de manera mas eficiente
@@ -249,11 +252,54 @@ def anchura_grafo_nivel(nodo_inicio, nodo_fin):
 ##############################################################################################
 ##############################################################################################
 
+def output_anchura(nodo_inicio, nodo_fin):
+    i = time.time()*1000
+    anchura_grafo(nodo_inicio,nodo_fin)
+    f = time.time()*1000
+    delta = f - i
+    print("TIEMPO DEL METODO",delta,"ms")
+
+def output_profundidad(nodo_inicio, nodo_fin):
+    i = time.time() * 1000
+    profundidad_grafo(nodo_inicio, nodo_fin)
+    f = time.time() * 1000
+    delta = f - i
+    print("TIEMPO DEL METODO", delta, "ms")
+
+def output_backtraking(nodo_inicio,nodo_fin, lim):
+    i = time.time() * 1000
+    backtracking_grafo(nodo_inicio, nodo_fin,lim)
+    f = time.time() * 1000
+    delta = f - i
+    print("TIEMPO DEL METODO", delta, "ms")
+
+def algoritmos():
+    while(True):
+        print("Seleccione el algoritmo a ejecutar")
+        print("1. Anchura grafo")
+        print("2. Profundidad grafo")
+        print("3. Backtracking ")
+        print("4. Salir")
+        option = input("opcion:")
+        if int(option) == 1 :
+            output_anchura(nodo_inicio,nodo_fin)
+        elif int(option) == 2:
+            output_profundidad(nodo_inicio, nodo_fin)
+        elif int(option) == 3:
+            limite = input("ingrese el limite")
+            output_backtraking(nodo_inicio,nodo_fin,limite)
+        elif int(option) == 4:
+            break
+
+algoritmos()
+
 #backtracking_grafo(nodo_inicio, nodo_fin,39)
 #anchura_grafo(nodo_inicio, nodo_fin)
+#anchura_grafo_nivel(nodo_inicio, nodo_fin)
 #profundidad_grafo(nodo_inicio, nodo_fin)
-#profundidad_grafo_nivel(nodo_inicio, nodo_fin)
-anchura_grafo_nivel(nodo_inicio, nodo_fin)
-# TODO: metodo para que seleccione algun tipo de algoritmo
+#$profundidad_grafo_nivel(nodo_inicio, nodo_fin)
+#anchura_grafo_nivel(nodo_inicio, nodo_fin)
+
+
 
 
