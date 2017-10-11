@@ -180,6 +180,36 @@ def costo_uniforme_grafo(nodo_inicio, nodo_fin):
             lista = sorted(lista ,key=lambda y: y[1])
     print ("NO SOLUCION")
 
+#backtracking
+def backtracking_grafo(nodo_inicio, nodo_fin, lim):
+    lista = [[nodo_inicio, 0]]
+    destapados = []
+    c = 1
+    while lista:
+        nodo_actual = lista.pop(0)
+        destapados.append(deepcopy(nodo_actual[0]))
+        print('Nodo actual:', nodo_actual, "Contador:", c)
+        c = c + 1
+        if(nodo_actual[0] == nodo_fin):
+            print("********************************************************************************************")
+            print("**************** B A C K T R A C K I N G   G R A F O ***************************************")
+            print("Numero de nodos visitados: ", c -1)
+            print("Niveles del arbol: ", nodo_actual[1])
+            print("Numero de nodos en lista: ", len(lista))
+            print("Numero de nodos en total: " ,(c-1)+len(lista))
+            print("PAPAS:")
+            imprimir_papas(nodo_actual)
+            print("********************************************************************************************")
+            return print ("SOLUCION")
+        if(nodo_actual[1] < lim):
+            temp = sucesores_limite(nodo_actual)
+            if temp:
+                x = [t for t in temp if t not in lista and t[0] not in destapados]
+                x.extend(deepcopy(lista))
+                lista = x
+    print ("NO SOLUCION")
+
+
 ##############################################################################################
 ##############################################################################################
 ##########################   E J E C U C I O N   #############################################
@@ -210,13 +240,23 @@ def output_costo_uniforme(nodo_inicio,nodo_fin):
     delta = f - i
     print("TIEMPO DEL METODO", delta, "ms")
 
+def output_backtraking(nodo_inicio,nodo_fin, lim):
+    nodos_sucesores= []
+    i = time.time() * 1000
+    backtracking_grafo(nodo_inicio, nodo_fin,lim)
+    f = time.time() * 1000
+    delta = f - i
+    print("TIEMPO DEL METODO", delta, "ms")
+
+
 def algoritmos():
     while(True):
         print("Seleccione el algoritmo a ejecutar")
         print("1. Anchura grafo")
         print("2. Profundidad grafo")
         print("3. Costo Uniforme grafo ")
-        print("4. Salir")
+        print("4. Backtracking grafo")
+        print("5. Salir")
         option = input("opcion:")
         if int(option) == 1 :
             output_anchura(nodo_inicio,nodo_fin)
@@ -225,6 +265,9 @@ def algoritmos():
         elif int(option) == 3:
             output_costo_uniforme(nodo_inicio,nodo_fin)
         elif int(option) == 4:
+            limite = input("ingrese el limite")
+            output_backtraking(nodo_inicio,nodo_fin,int(limite))
+        elif int(option) == 5:
             break
 
 algoritmos()
