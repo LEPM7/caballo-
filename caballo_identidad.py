@@ -14,7 +14,6 @@ min_y = 0
 caballos = ['Cb','Cn']
 nodo_inicio = [['Cn', '0', 'Cn'], ['0', '0', '0'], ['Cb', '0', 'Cb']]
 nodo_fin = [['Cb', '0', 'Cb'], ['0', '0', '0'], ['Cn', '0', 'Cn']]
-np.set_printoptions(threshold=np.nan)
 
 def esta_en_rango(x, y):
     return not (x < min_x or x > max_x or y < min_y or y > max_y)
@@ -60,21 +59,13 @@ def sucesores_limite(nodo):
     aux = nodo[0][:][:]
     np_nodo = np.array(aux)
     lr = []
-    lr2 = []
     for c in caballos:
         indice = np.where(np_nodo == c)
-        x = indice[0][0]
-        y = indice[1][0]
-        #ocho movimientos para el primer caballo
         for q in range(1, 9):
-            nodor = movimiento(q, c,x ,y , nodo[0])
-            (lr.append([nodor,nodo[1]+1]) if nodor is not None else None)
-        i = indice[0][1]
-        j = indice[1][1]
-        for w in range(1, 9):
-            nx = movimiento(w, c, i ,j , nodo[0])
-            (lr2.append([(nx),nodo[1]+1]) if (nx) is not None else None)
-    lr3 = lr.extend(lr2)
+            nodo_movimiento_c1 = movimiento(q, c,indice[0][0] ,indice[1][0] , nodo[0])
+            (lr.append([nodo_movimiento_c1,nodo[1]+1]) if nodo_movimiento_c1 is not None else None)
+            nodo_movimiento_c2 = movimiento(q, c, indice[0][1] ,indice[1][1] , nodo[0])
+            (lr.append([(nodo_movimiento_c2),nodo[1]+1]) if (nodo_movimiento_c2) is not None else None)
     return lr
 
 #anchura
