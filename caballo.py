@@ -22,13 +22,22 @@ min_y = 0
 nodo_inicio = [['c1', '0', 'c2'], ['0', '0', '0'], ['c3', '0', 'c4']]
 nodo_fin = [['c4', '0', 'c3'], ['0', '0', '0'], ['c2', '0', 'c1']]
 #nodo_fin = [['c3', '0', 'c4'], ['0', '0', '0'], ['c1', '0', 'c2']]
-
+nodos_visitados = []
 
 ##############################################################################################
 ##############################################################################################
 ######################### M E T O D O S  C O M U N E S  ##### ################################
 ##############################################################################################
 ##############################################################################################
+
+def imprimir_papas(nodo):
+    x = len(nodos_visitados) -1
+    while(x >= 0 ):
+        if nodos_visitados[x][0] == nodo[0] and nodos_visitados[x][1] == nodo[1]:
+            print("Nodo", nodos_visitados[x][0], "Nivel", nodos_visitados[x][1])
+            imprimir_papas(nodos_visitados[x][2])
+            break
+        x = x -1
 
 def imprimir_lista_listas(lls):
     for l in lls:
@@ -100,19 +109,8 @@ def sucesores_limite(nodo):
         for i in range(1, 9):
             nodor = movimiento(i, c, x, y, nodo[0])
             (lr.append([nodor,nodo[1] + 1]) if nodor is not None else None)
-    return lr
+            (nodos_visitados.append([nodor, nodo[1] + 1,nodo]) if nodor is not None else None)
 
-def sucesores_limite_papa(nodo):
-    aux = nodo[0][:][:]
-    np_nodo = np.array(aux)
-    lr = []
-    for c in caballos:
-        indice = np.where(np_nodo == c)
-        x = indice[0][0]
-        y = indice[1][0]
-        for i in range(1, 9):
-            nodor = movimiento(i, c, x, y, nodo[0])
-            (lr.append([nodor,nodo[1] + 1]) if nodor is not None else None)
     return lr
 
 ##############################################################################################
@@ -166,10 +164,13 @@ def anchura_grafo_nivel(nodo_inicio, nodo_fin):
         c = c + 1
         if (nodo_actual[0] == nodo_fin):
             print("********************************************************************************************")
+            print("************************ A N C H U R A   G R A F O *****************************************")
             print("Numero de nodos visitados: ", c-1)
             print("Niveles del arbol: ", nodo_actual[1])
             print("Numero de nodos en lista: ", len(lista))
             print("Numero de nodos en total: ",(c - 1) + len(lista))
+            print("PAPAS:")
+            imprimir_papas(nodo_actual)
             print("********************************************************************************************")
             return print("SOLUCION")
         temp = sucesores_limite(nodo_actual)
@@ -224,6 +225,7 @@ def profundidad_grafo_nivel(nodo_inicio, nodo_fin):
         c = c + 1
         if(nodo_actual[0] == nodo_fin):
             print("********************************************************************************************")
+            print("********************** P R O F U N D I D A D   G R A F O ***********************************")
             print("Numero de nodos visitados: ", c-1)
             print("Niveles del arbol: ", nodo_actual[1])
             print("Numero de nodos en lista: ", len(lista))
@@ -249,10 +251,13 @@ def backtracking_grafo(nodo_inicio, nodo_fin, lim):
         c = c + 1
         if(nodo_actual[0] == nodo_fin):
             print("********************************************************************************************")
+            print("**************** B A C K T R A C K I N G   G R A F O ***************************************")
             print("Numero de nodos visitados: ", c -1)
             print("Niveles del arbol: ", nodo_actual[1])
             print("Numero de nodos en lista: ", len(lista))
             print("Numero de nodos en total: " ,(c-1)+len(lista))
+            print("PAPAS:")
+            imprimir_papas(nodo_actual)
             print("********************************************************************************************")
             return print ("SOLUCION")
         if(nodo_actual[1] < lim):
@@ -270,6 +275,7 @@ def backtracking_grafo(nodo_inicio, nodo_fin, lim):
 ##############################################################################################
 
 def output_anchura(nodo_inicio, nodo_fin):
+    nodos_visitados = []
     i = time.time()*1000
     anchura_grafo_nivel(nodo_inicio,nodo_fin)
     f = time.time()*1000
@@ -277,6 +283,7 @@ def output_anchura(nodo_inicio, nodo_fin):
     print("TIEMPO DEL METODO",delta,"ms")
 
 def output_profundidad(nodo_inicio, nodo_fin):
+    nodos_visitados = []
     i = time.time() * 1000
     profundidad_grafo_nivel(nodo_inicio, nodo_fin)
     f = time.time() * 1000
@@ -284,6 +291,7 @@ def output_profundidad(nodo_inicio, nodo_fin):
     print("TIEMPO DEL METODO", delta, "ms")
 
 def output_backtraking(nodo_inicio,nodo_fin, lim):
+    nodos_visitados= []
     i = time.time() * 1000
     backtracking_grafo(nodo_inicio, nodo_fin,lim)
     f = time.time() * 1000
