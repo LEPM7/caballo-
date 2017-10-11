@@ -102,6 +102,19 @@ def sucesores_limite(nodo):
             (lr.append([nodor,nodo[1] + 1]) if nodor is not None else None)
     return lr
 
+def sucesores_limite_papa(nodo):
+    aux = nodo[0][:][:]
+    np_nodo = np.array(aux)
+    lr = []
+    for c in caballos:
+        indice = np.where(np_nodo == c)
+        x = indice[0][0]
+        y = indice[1][0]
+        for i in range(1, 9):
+            nodor = movimiento(i, c, x, y, nodo[0])
+            (lr.append([nodor,nodo[1] + 1]) if nodor is not None else None)
+    return lr
+
 ##############################################################################################
 ##############################################################################################
 ######################### A L G O R I T M O S   N  O   I N F O R M A D O S ###################
@@ -152,6 +165,12 @@ def anchura_grafo_nivel(nodo_inicio, nodo_fin):
         print('Nodo actual:', nodo_actual, "Contador:", c)
         c = c + 1
         if (nodo_actual[0] == nodo_fin):
+            print("********************************************************************************************")
+            print("Numero de nodos visitados: ", c-1)
+            print("Niveles del arbol: ", nodo_actual[1])
+            print("Numero de nodos en lista: ", len(lista))
+            print("Numero de nodos en total: ",(c - 1) + len(lista))
+            print("********************************************************************************************")
             return print("SOLUCION")
         temp = sucesores_limite(nodo_actual)
         if temp:
@@ -204,7 +223,13 @@ def profundidad_grafo_nivel(nodo_inicio, nodo_fin):
         print ('Nodo actual:', nodo_actual, "Contador:",c)
         c = c + 1
         if(nodo_actual[0] == nodo_fin):
-            return print ("SOLUCION")
+            print("********************************************************************************************")
+            print("Numero de nodos visitados: ", c-1)
+            print("Niveles del arbol: ", nodo_actual[1])
+            print("Numero de nodos en lista: ", len(lista))
+            print("Numero de nodos en total: ",(c - 1) + len(lista))
+            print("********************************************************************************************")
+            return print("SOLUCION")
         temp = sucesores_limite(nodo_actual)
         if temp:
             x = [t for t in temp if t not in lista and t[0] not in destapados]
@@ -223,6 +248,12 @@ def backtracking_grafo(nodo_inicio, nodo_fin, lim):
         print('Nodo actual:', nodo_actual, "Contador:", c)
         c = c + 1
         if(nodo_actual[0] == nodo_fin):
+            print("********************************************************************************************")
+            print("Numero de nodos visitados: ", c -1)
+            print("Niveles del arbol: ", nodo_actual[1])
+            print("Numero de nodos en lista: ", len(lista))
+            print("Numero de nodos en total: " ,(c-1)+len(lista))
+            print("********************************************************************************************")
             return print ("SOLUCION")
         if(nodo_actual[1] < lim):
             temp = sucesores_limite(nodo_actual)
