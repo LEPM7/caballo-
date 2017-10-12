@@ -14,6 +14,8 @@ from copy import deepcopy
 
 #orden para realizar las movidas de los caballos
 caballos = ['c3', 'c2', 'c4', 'c1']
+caballos = ['c1', 'c4', 'c2', 'c3'] #85
+
 # limites del tablero
 max_x = 2
 max_y = 2
@@ -225,6 +227,8 @@ def profundidad_grafo_nivel(nodo_inicio, nodo_fin):
             print("Niveles del arbol: ", nodo_actual[1])
             print("Numero de nodos en lista: ", len(lista))
             print("Numero de nodos en total: ",(c - 1) + len(lista))
+            print("Papas:")
+            imprimir_papas(nodo_actual)
             print("********************************************************************************************")
             return print("SOLUCION")
         temp = sucesores_limite(nodo_actual)
@@ -353,7 +357,3 @@ def algoritmos():
             break
 
 algoritmos()
-
-
-
-
